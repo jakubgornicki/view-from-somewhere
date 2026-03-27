@@ -223,6 +223,16 @@ body {
   height: 120px;
   opacity: 1;
 }
+/* ── Campaign card image reveal ── */
+.campaign-slogan-img {
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+}
+.campaign-card:hover .campaign-slogan-img {
+  height: 220px;
+  opacity: 1;
+}
 
 /* ── Theory article hover ── */
 .theory-entry:hover .entry-num { color: #DB3C2A; }
@@ -571,6 +581,59 @@ body {
 
     <section class="px-8 md:px-16 pb-24">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-1">
+
+        <!-- Campaign: MTV - I Want My MTV (IMAGE) -->
+        <div class="campaign-card bg-[#0e0e0e] p-8 hover:bg-[#2a2a2a] cursor-crosshair reveal">
+          <div class="flex justify-between items-start mb-6">
+            <span class="font-mono text-xs text-primary bg-surface-container-high px-2 py-1">MTV // 1981</span>
+            <span class="font-mono text-[10px] text-zinc-500">BROADCAST ERA</span>
+          </div>
+          <div class="campaign-slogan-img mb-0 overflow-hidden bg-[#050505]">
+            <img src="../campaign-visuals/mtv--i-want-my-mtv/i-want-my-mtv-ad-grid.jpg" class="w-full h-full object-cover object-top" alt="I Want My MTV - ad grid">
+          </div>
+          <h2 class="font-headline font-extrabold text-3xl uppercase tracking-tighter mb-3 mt-4">I WANT MY MTV</h2>
+          <p class="font-mono text-xs text-on-surface-variant mb-6 leading-relaxed">MTV revolutionized media branding by selling an attitude, an aesthetic, and a lifestyle. The broadcast boom introduced entirely new methodologies for claiming authority. "I Want My MTV!" used celebrities to pressure cable operators to carry the channel, turning brand promotion into a public mobilization campaign. MTV pioneered techniques journalism would later adopt: selling identity, attitude, and cultural allegiance rather than simply content.</p>
+          <div class="flex justify-between items-center border-t border-surface-container-high pt-4">
+            <span class="font-mono text-[10px] text-zinc-500">BROADCAST ERA // LIFESTYLE_BRANDING</span>
+            <span class="font-mono text-[10px] text-primary">[ MTV ]</span>
+          </div>
+        </div>
+
+        <!-- Campaign: Reuters - Pure News (IMAGE) -->
+        <div class="campaign-card bg-[#131313] p-8 hover:bg-[#2a2a2a] cursor-crosshair md:mt-16 reveal">
+          <div class="flex justify-between items-start mb-6">
+            <span class="font-mono text-xs text-primary bg-surface-container-high px-2 py-1">REUTERS // 2024</span>
+            <span class="font-mono text-[10px] text-zinc-500 status-active">AI ERA</span>
+          </div>
+          <div class="campaign-slogan-img mb-0 overflow-hidden bg-[#050505]">
+            <img src="../campaign-visuals/reuters--pure-news/still-03-glass-bottle-pure-news.png" class="w-full h-full object-cover" alt="Reuters - Pure News, Straight from the Source">
+          </div>
+          <h2 class="font-headline font-extrabold text-3xl uppercase tracking-tighter mb-3 mt-4">PURE NEWS</h2>
+          <p class="font-mono text-xs text-on-surface-variant mb-6 leading-relaxed">As Generative AI began to flood the internet with frictionless, synthetic text and hyper-realistic fake imagery, Reuters pivoted its marketing strategy to focus entirely on human verification. The campaign dramatically visualized the threat of misinformation, using imagery of water turning murky to represent the pollution of digital truth. This marks a critical evolution in media self-promotion: the absence of AI intervention and human editorial oversight has become a premium commodity.</p>
+          <div class="flex justify-between items-center border-t border-surface-container-high pt-4">
+            <span class="font-mono text-[10px] text-zinc-500">AI ERA // HUMAN_VERIFICATION</span>
+            <span class="font-mono text-[10px] text-primary">[ REUTERS ]</span>
+          </div>
+        </div>
+
+        <!-- Campaign: The Guardian - Points of View 1986 (IMAGE TRIPTYCH) -->
+        <div class="campaign-card bg-[#0e0e0e] p-8 hover:bg-[#2a2a2a] cursor-crosshair reveal">
+          <div class="flex justify-between items-start mb-6">
+            <span class="font-mono text-xs text-primary bg-surface-container-high px-2 py-1">THE GUARDIAN // 1986</span>
+            <span class="font-mono text-[10px] text-zinc-500">ENDURING BENCHMARK</span>
+          </div>
+          <div class="campaign-slogan-img mb-0 overflow-hidden bg-[#050505] flex gap-px">
+            <img src="../campaign-visuals/the-guardian--points-of-view-1986/still-01-street-scene.png" class="flex-1 object-cover object-center" style="min-width:0" alt="Guardian 1986 - street scene">
+            <img src="../campaign-visuals/the-guardian--points-of-view-1986/still-02-skinhead-running.png" class="flex-1 object-cover object-center" style="min-width:0" alt="Guardian 1986 - skinhead running">
+            <img src="../campaign-visuals/the-guardian--points-of-view-1986/still-04-full-scene.png" class="flex-1 object-cover object-center" style="min-width:0" alt="Guardian 1986 - full scene">
+          </div>
+          <h2 class="font-headline font-extrabold text-3xl uppercase tracking-tighter mb-3 mt-4">POINTS OF VIEW</h2>
+          <p class="font-mono text-xs text-on-surface-variant mb-6 leading-relaxed">Considered an absolute classic and enduring benchmark for media advertising. The Guardian's 1986 campaign brilliantly illustrated the necessity of full journalistic context. The iconic television spot depicted a dramatic street scene from three distinct camera angles: one suggesting a skinhead was attacking a businessman, another showing him fleeing the police, and finally, the "whole picture" revealing he was actually saving the man from falling bricks. Facts without context can lie.</p>
+          <div class="flex justify-between items-center border-t border-surface-container-high pt-4">
+            <span class="font-mono text-[10px] text-zinc-500">CONTEXT // OPEN_JOURNALISM</span>
+            <span class="font-mono text-[10px] text-primary">[ THE GUARDIAN ]</span>
+          </div>
+        </div>
 
         <!-- Campaign: CNN - Facts First -->
         <div class="campaign-card bg-[#0e0e0e] p-8 hover:bg-[#2a2a2a] cursor-crosshair reveal">
