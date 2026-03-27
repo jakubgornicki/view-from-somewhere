@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VIEW FROM SOMEWHERE - JAKUB GÓRNICKI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "surface": "#131313",
+          "on-secondary-fixed-variant": "#930100",
+          "tertiary": "#acc7ff",
+          "surface-container-highest": "#353534",
+          "on-tertiary-container": "#00285b",
+          "on-surface-variant": "#ebbbb4",
+          "on-primary": "#690100",
+          "surface-container-high": "#2a2a2a",
+          "primary": "#DB3C2A",
+          "on-secondary-fixed": "#410000",
+          "on-error-container": "#ffdad6",
+          "tertiary-container": "#488fff",
+          "primary-fixed-dim": "#ffb4a8",
+          "outline-variant": "#603e39",
+          "surface-tint": "#ffb4a8",
+          "on-background": "#e5e2e1",
+          "inverse-primary": "#c00100",
+          "on-surface": "#e5e2e1",
+          "on-secondary": "#690100",
+          "outline": "#b18780",
+          "on-secondary-container": "#ff9f90",
+          "surface-container-low": "#1c1b1b",
+          "on-primary-fixed-variant": "#930100",
+          "on-error": "#690005",
+          "primary-fixed": "#ffdad4",
+          "surface-dim": "#131313",
+          "secondary-fixed-dim": "#ffb4a8",
+          "surface-variant": "#353534",
+          "secondary-fixed": "#ffdad4",
+          "secondary": "#ffb4a8",
+          "background": "#131313",
+          "error": "#ffb4ab",
+          "on-tertiary": "#002f67",
+          "inverse-on-surface": "#313030",
+          "surface-container": "#201f1f",
+          "secondary-container": "#970100",
+          "on-primary-container": "#5c0000",
+          "on-tertiary-fixed": "#001a40",
+          "on-tertiary-fixed-variant": "#004491",
+          "tertiary-fixed-dim": "#acc7ff",
+          "tertiary-fixed": "#d7e2ff",
+          "surface-bright": "#3a3939",
+          "inverse-surface": "#e5e2e1",
+          "on-primary-fixed": "#410000",
+          "surface-container-lowest": "#0e0e0e",
+          "error-container": "#93000a",
+          "primary-container": "#DB3C2A"
+        },
+        fontFamily: {
+          "headline": ["Inter"],
+          "body": ["Space Grotesk"],
+          "label": ["Space Grotesk"]
+        },
+        borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+      },
+    },
+  }
+</script>
+<style>
+/* ── Base ── */
+body {
+  background-color: #131313;
+  color: #e5e2e1;
+  overflow-x: hidden;
+}
+
+/* ── Film grain overlay ── */
+.film-grain {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.04;
+  background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuDxB9Y-g08xXWNCqvYfaXgBtoO2mymrTBY9Z7YvXQmJfSx18eIufruAnHw_yVv3ptviblGo23cSswxBvVbO_IzOqyotvRV0aDkkVu0_O38GJinVXkd7h56DHJODY1DnAZX5YRlS0ZLSzyrMbvdFYU80riP5gVj4lWjOpnseMD_3YKLvwCcwTzeEj-j2P5EJOpPmJnudLuqGWEy6KgexMkW4eQ5ip4mAWDUetZ8G81zAaTnSlsQ4JciJlOSl5fixPJ80HVr2wvUzN0WU);
+  mix-blend-mode: overlay;
+}
+
+/* ── Hazard tape ── */
+.hazard-tape {
+  background: repeating-linear-gradient(45deg, #DB3C2A, #DB3C2A 10px, #000 10px, #000 20px);
+}
+
+/* ── Material icons ── */
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
+/* ── SPA: pages hidden by default ── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ── Glitch on headline ── */
+@keyframes glitch-shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-3px); }
+  40%       { transform: translateX(3px); }
+  60%       { transform: translateX(-2px); }
+  80%       { transform: translateX(2px); }
+}
+.glitch-title:hover {
+  text-shadow: 3px 0 #DB3C2A, -3px 0 #0ff;
+  animation: glitch-shake 0.15s steps(2) infinite;
+}
+
+/* ── Typing cursor ── */
+.typing::after {
+  content: '_';
+  color: #DB3C2A;
+  animation: blink 0.7s steps(1) infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* ── Scroll reveal (step-based per design system) ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(10px);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.1s steps(2), transform 0.1s steps(2);
+}
+
+/* ── Lightbox ── */
+#lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.96);
+  z-index: 10000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: crosshair;
+}
+#lightbox.open { display: flex; }
+#lightbox img {
+  max-width: 88vw;
+  max-height: 88vh;
+  object-fit: contain;
+  filter: grayscale(1) contrast(1.15);
+}
+#lightbox-close {
+  position: absolute;
+  top: 1.5rem; right: 1.5rem;
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: #DB3C2A;
+  cursor: pointer;
+}
+#lightbox-close:hover { color: #fff; }
+#lightbox-caption {
+  position: absolute;
+  bottom: 1.5rem; left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: #603e39;
+}
+
+/* ── Mobile menu ── */
+#mobile-menu {
+  transform: translateX(-100%);
+  transition: transform 0.1s steps(4);
+}
+#mobile-menu.open { transform: translateX(0); }
+
+/* ── Active nav - side ── */
+.nav-side-link.active-side {
+  background-color: #DB3C2A;
+  color: #000;
+  font-weight: 700;
+}
+.nav-side-link.active-side:hover {
+  background-color: #DB3C2A;
+  color: #000;
+}
+
+/* ── Active nav - top ── */
+.nav-top-link.active-top {
+  color: #DB3C2A;
+  border-color: #DB3C2A;
+}
+
+/* ── Status dot ── */
+.status-active::before {
+  content: '';
+  display: inline-block;
+  width: 5px; height: 5px;
+  background: #DB3C2A;
+  margin-right: 5px;
+  vertical-align: middle;
+  animation: blink 1.2s steps(1) infinite;
+}
+
+/* ── Campaign card slogan reveal ── */
+.campaign-slogan {
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+}
+.campaign-card:hover .campaign-slogan {
+  height: 120px;
+  opacity: 1;
+}
+
+/* ── Theory article hover ── */
+.theory-entry:hover .entry-num { color: #DB3C2A; }
+
+/* ── Slogan scatter ── */
+.slogan-field {
+  position: relative;
+  min-height: 480px;
+}
+</style>
+</head>
+<body class="font-body selection:bg-primary-container selection:text-on-primary-container">
+
+<!-- Film grain overlay -->
+<div class="film-grain"></div>
+
+<!-- ============================================================
+     LIGHTBOX
+     ============================================================ -->
+<div id="lightbox" onclick="if(event.target===this)closeLightbox()">
+  <div id="lightbox-close" onclick="closeLightbox()">[ CLOSE_X ]</div>
+  <img id="lightbox-img" src="" alt=""/>
+  <div id="lightbox-caption">CLICK OUTSIDE OR PRESS ESC TO CLOSE</div>
+</div>
+
+<!-- ============================================================
+     MOBILE MENU
+     ============================================================ -->
+<div id="mobile-menu" class="fixed top-0 left-0 h-full w-72 bg-[#0e0e0e] z-50 flex flex-col xl:hidden border-r border-surface-container-high">
+  <div class="flex justify-between items-center px-6 py-5 border-b border-surface-container-high">
+    <div>
+      <div class="font-black text-white font-headline text-sm leading-none uppercase tracking-tighter">VIEW FROM<br/>SOMEWHERE</div>
+      <div class="font-mono text-xs text-primary mt-1">JAKUB GÓRNICKI</div>
+    </div>
+    <span class="material-symbols-outlined text-white cursor-pointer text-2xl" onclick="toggleMobileMenu()">close</span>
+  </div>
+  <nav class="flex-grow mt-2">
+    <div class="flex flex-col space-y-0">
+      <a class="nav-side-link nav-mobile-link text-white/60 p-4 flex items-center space-x-3 cursor-pointer hover:text-white hover:bg-[#2a2a2a]" data-page="archive" onclick="navigateTo('archive');toggleMobileMenu()">
+        <span class="material-symbols-outlined text-xl">folder_open</span>
+        <span class="font-mono text-xs uppercase">FIELD_NOTES</span>
+      </a>
+      <a class="nav-side-link nav-mobile-link text-white/60 p-4 flex items-center space-x-3 cursor-pointer hover:text-white hover:bg-[#2a2a2a]" data-page="campaigns" onclick="navigateTo('campaigns');toggleMobileMenu()">
+        <span class="material-symbols-outlined text-xl">visibility_off</span>
+        <span class="font-mono text-xs uppercase">EVIDENCE</span>
+      </a>
+      <a class="nav-side-link nav-mobile-link text-white/60 p-4 flex items-center space-x-3 cursor-pointer hover:text-white hover:bg-[#2a2a2a]" data-page="theory" onclick="navigateTo('theory');toggleMobileMenu()">
+        <span class="material-symbols-outlined text-xl">explore</span>
+        <span class="font-mono text-xs uppercase">MAP</span>
+      </a>
+      <a class="nav-side-link nav-mobile-link text-white/60 p-4 flex items-center space-x-3 cursor-pointer hover:text-white hover:bg-[#2a2a2a]" data-page="dossier" onclick="navigateTo('dossier');toggleMobileMenu()">
+        <span class="material-symbols-outlined text-xl">security</span>
+        <span class="font-mono text-xs uppercase">ABOUT</span>
+      </a>
+    </div>
+  </nav>
+  <div class="p-4 border-t border-surface-container-high">
+    <a href="http://www.jakubgornicki.com" target="_blank" class="block w-full bg-primary-container text-white font-mono font-bold py-3 px-4 text-xs uppercase hover:bg-[#DB3C2A] text-center">
+      JAKUBGORNICKI.COM
+    </a>
+  </div>
+</div>
+<div id="mobile-overlay" class="fixed inset-0 bg-black/60 z-40 hidden" onclick="toggleMobileMenu()"></div>
+
+<!-- ============================================================
+     TOP NAVIGATION
+     ============================================================ -->
+<nav class="flex justify-between items-center w-full px-6 py-4 bg-[#131313] bg-opacity-90 backdrop-blur-xl fixed top-0 z-50 border-b border-surface-container-high">
+  <div class="font-black italic uppercase tracking-tighter font-headline text-xl md:text-3xl text-[#DB3C2A] cursor-pointer leading-none" onclick="navigateTo('archive')">
+    VIEW FROM<br class="hidden md:block"/>SOMEWHERE
+  </div>
+  <div class="hidden md:flex space-x-8 items-center">
+    <a class="nav-top-link border-b-4 pb-1 font-mono text-sm text-white/60 border-transparent cursor-pointer hover:text-white" data-page="archive" onclick="navigateTo('archive')">INTRO</a>
+    <a class="nav-top-link border-b-4 pb-1 font-mono text-sm text-white/60 border-transparent cursor-pointer hover:text-white" data-page="campaigns" onclick="navigateTo('campaigns')">CAMPAIGNS</a>
+    <a class="nav-top-link border-b-4 pb-1 font-mono text-sm text-white/60 border-transparent cursor-pointer hover:text-white" data-page="theory" onclick="navigateTo('theory')">THEORY</a>
+    <a class="nav-top-link border-b-4 pb-1 font-mono text-sm text-white/60 border-transparent cursor-pointer hover:text-white" data-page="dossier" onclick="navigateTo('dossier')">ABOUT</a>
+  </div>
+  <div class="flex items-center space-x-4">
+    <a href="http://www.jakubgornicki.com" target="_blank" class="font-mono text-[10px] text-zinc-600 hover:text-[#DB3C2A] hidden md:block uppercase tracking-widest">jakubgornicki.com</a>
+    <span class="material-symbols-outlined text-white cursor-pointer md:hidden" onclick="toggleMobileMenu()">menu</span>
+  </div>
+</nav>
+
+<!-- ============================================================
+     SIDE NAVIGATION (xl only)
+     ============================================================ -->
+<aside class="fixed left-0 top-0 h-full flex-col z-40 bg-[#0e0e0e] w-64 hidden xl:flex pt-24 border-r border-surface-container-high">
+  <div class="p-6 mb-6">
+    <div class="font-black text-white font-headline text-base uppercase leading-tight tracking-tighter">VIEW FROM SOMEWHERE</div>
+    <div class="font-mono text-xs text-primary mt-1">JAKUB GÓRNICKI // 2025</div>
+  </div>
+  <nav class="flex-grow">
+    <div class="flex flex-col space-y-0">
+      <a class="nav-side-link text-white/60 p-4 flex items-center space-x-3 cursor-pointer hover:text-white hover:bg-[#2a2a2a]" data-page="archive" onclick="navigateTo('archive')">
+        <span class="material-symbols-outlined text-xl">folder_open</span>
+        <span class="font-mono text-xs uppercase">FIELD_NOTES</span>
+      </a>
+      <a class="nav-side-link text-white/60 p-4 flex items-center space-x-3 cursor-pointer hover:text-white hover:bg-[#2a2a2a]" data-page="campaigns" onclick="navigateTo('campaigns')">
+        <span class="material-symbols-outlined text-xl">visibility_off</span>
+        <span class="font-mono text-xs uppercase">EVIDENCE</span>
+      </a>
+      <a class="nav-side-link text-white/60 p-4 flex items-center space-x-3 cursor-pointer hover:text-white hover:bg-[#2a2a2a]" data-page="theory" onclick="navigateTo('theory')">
+        <span class="material-symbols-outlined text-xl">explore</span>
+        <span class="font-mono text-xs uppercase">MAP</span>
+      </a>
+      <a class="nav-side-link text-white/60 p-4 flex items-center space-x-3 cursor-pointer hover:text-white hover:bg-[#2a2a2a]" data-page="dossier" onclick="navigateTo('dossier')">
+        <span class="material-symbols-outlined text-xl">security</span>
+        <span class="font-mono text-xs uppercase">ABOUT</span>
+      </a>
+    </div>
+  </nav>
+  <div class="p-4 mt-auto border-t border-surface-container-high">
+    <a href="http://www.jakubgornicki.com" target="_blank" class="block w-full bg-primary-container text-white font-mono font-bold py-3 px-4 text-xs uppercase hover:bg-[#DB3C2A] text-center">
+      JAKUBGORNICKI.COM
+    </a>
+    <div class="flex justify-between mt-4">
+      <span class="font-mono text-[10px] text-zinc-600">WWW.JAKUBGORNICKI.COM</span>
+    </div>
+  </div>
+</aside>
+
+<!-- ============================================================
+     MAIN CONTENT
+     ============================================================ -->
+<main class="xl:ml-64 pt-24 min-h-screen bg-surface">
+
+  <!-- ══════════════════════════════════════════════════════════
+       PAGE: ARCHIVE (FIELD_NOTES) — EXHIBITION INTRODUCTION
+       ══════════════════════════════════════════════════════════ -->
+  <div id="page-archive" class="page">
+
+    <header class="px-8 md:px-16 py-12 max-w-6xl">
+      <div id="status-text" class="font-mono text-primary text-xs tracking-[0.3em] mb-4 typing"></div>
+      <h1 class="font-headline font-black text-6xl md:text-8xl uppercase leading-[0.85] tracking-tighter mb-8 glitch-title cursor-default">
+        VIEW FROM<br/>
+        <span class="text-white opacity-20">SOMEWHERE</span>
+      </h1>
+      <p class="font-mono text-sm max-w-2xl text-on-surface-variant leading-relaxed mb-4">
+        This exhibition examines how journalism organizations market themselves - not to analyze advertising creativity, but to understand how the profession explains its social function under shifting economic and technological conditions.
+      </p>
+      <p class="font-mono text-sm max-w-2xl text-on-surface-variant leading-relaxed">
+        The exhibition treats self-promotional campaigns as primary source material. Slogans are compressed statements of institutional identity. They show what journalism promises when it must persuade rather than presume authority.
+      </p>
+      <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-1">
+        <div class="bg-[#0e0e0e] p-6 border-l-4 border-[#DB3C2A]">
+          <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest mb-2">QUESTION_01</p>
+          <p class="font-mono text-sm text-on-surface-variant">What has journalism promised?</p>
+        </div>
+        <div class="bg-[#0e0e0e] p-6 border-l-4 border-[#DB3C2A]/40">
+          <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest mb-2">QUESTION_02</p>
+          <p class="font-mono text-sm text-on-surface-variant">Why did those promises change?</p>
+        </div>
+        <div class="bg-[#0e0e0e] p-6 border-l-4 border-[#DB3C2A]/20">
+          <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest mb-2">QUESTION_03</p>
+          <p class="font-mono text-sm text-on-surface-variant">What will the profession need to promise next?</p>
+        </div>
+      </div>
+    </header>
+
+    <section class="space-y-0">
+
+      <!-- PANEL 01: VOICES OF THE GOLDEN AGE -->
+      <div class="group relative bg-[#0e0e0e] border-t-8 border-black reveal">
+        <div class="hazard-tape h-4 w-full"></div>
+        <div class="flex flex-col lg:flex-row h-full">
+          <div class="lg:w-1/3 p-8 md:p-12 flex flex-col justify-between">
+            <div>
+              <span class="font-mono text-xs text-primary px-2 py-1 bg-surface-container-high">ERA_01 // PRINT</span>
+              <h2 class="font-headline font-extrabold text-4xl mt-6 uppercase tracking-tighter">VOICES OF THE<br/>GOLDEN AGE</h2>
+            </div>
+            <div class="mt-8 space-y-4">
+              <div class="border-l-2 border-primary pl-4 py-1">
+                <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest">PERIOD</p>
+                <p class="font-mono text-sm">Late 19th - mid 20th century</p>
+              </div>
+              <p class="font-mono text-xs text-on-surface-variant leading-relaxed">
+                In the print era, trust was often implied rather than argued. Authority came from rootedness, continuity, and the physical presence of the paper in everyday life. Early newspaper mottos framed the publication as the definitive, objective pillar of a specific region.
+              </p>
+            </div>
+          </div>
+          <div class="lg:w-2/3 min-h-[500px] relative overflow-hidden bg-black p-10 flex flex-col justify-between">
+            <div class="flex justify-between items-start">
+              <div>
+                <div class="font-headline font-black text-3xl md:text-4xl text-white leading-tight mb-2">All the News That's<br/>Fit to Print.</div>
+                <div class="font-mono text-[10px] text-zinc-600 uppercase tracking-widest">THE NEW YORK TIMES</div>
+              </div>
+              <div class="text-right hidden md:block">
+                <div class="font-headline font-black text-2xl text-white/50 leading-tight mb-2">Nation shall speak<br/>peace unto nation.</div>
+                <div class="font-mono text-[10px] text-zinc-700 uppercase tracking-widest">BBC</div>
+              </div>
+            </div>
+            <div class="flex justify-between items-center">
+              <div>
+                <div class="font-headline font-extrabold text-xl text-white/60 leading-tight mb-1">The paper that stands for real values.</div>
+                <div class="font-mono text-[10px] text-zinc-700">THE SUNDAY POST</div>
+              </div>
+            </div>
+            <div class="flex justify-between items-end">
+              <div>
+                <div class="font-headline font-extrabold text-lg text-white/40 leading-tight mb-1">Tomorrow's News Today.</div>
+                <div class="font-mono text-[10px] text-zinc-700">EDINBURGH EVENING NEWS</div>
+              </div>
+              <div class="text-right">
+                <div class="font-headline font-black text-xl text-[#DB3C2A]/70 leading-tight mb-1">Seven Days.<br/>One paper.</div>
+                <div class="font-mono text-[10px] text-zinc-700">SUNDAY HERALD</div>
+              </div>
+            </div>
+            <div class="font-mono text-[10px] text-zinc-700 mt-4">
+              "First in the Morning." (Courier News) // "Read a bestseller every day." (Daily Telegraph) // "It's thinking time." (The Scotsman)
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-r from-black to-transparent w-16 pointer-events-none"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 02: DISAPPEARING TRUST -->
+      <div class="group relative bg-[#131313] border-y-8 border-black reveal">
+        <div class="hazard-tape h-4 w-full"></div>
+        <div class="flex flex-col lg:flex-row-reverse h-full">
+          <div class="lg:w-1/3 p-8 md:p-12 flex flex-col justify-between text-right">
+            <div>
+              <span class="font-mono text-xs text-primary px-2 py-1 bg-surface-container-high">ERA_02 // DIGITAL</span>
+              <h2 class="font-headline font-extrabold text-4xl mt-6 uppercase tracking-tighter">DISAPPEARING<br/>TRUST</h2>
+            </div>
+            <div class="mt-8 space-y-4">
+              <div class="border-r-2 border-primary pr-4 py-1">
+                <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest">PERIOD</p>
+                <p class="font-mono text-sm">2000s - present</p>
+              </div>
+              <p class="font-mono text-xs text-on-surface-variant leading-relaxed">
+                Trust was once part of journalism's infrastructure. As institutional authority weakened, trust moved from assumption to message. News organizations began to advertise credibility directly - through slogans about facts, fairness, transparency, and verification.
+              </p>
+            </div>
+          </div>
+          <div class="lg:w-2/3 min-h-[500px] relative overflow-hidden bg-[#0a0a0a] p-10 flex flex-col justify-between">
+            <div class="flex justify-between items-start">
+              <div>
+                <div class="font-headline font-black text-3xl md:text-4xl text-white leading-tight mb-2">The Truth Is<br/>Worth It.</div>
+                <div class="font-mono text-[10px] text-zinc-600 uppercase tracking-widest">THE NEW YORK TIMES</div>
+              </div>
+              <div class="text-right hidden md:block">
+                <div class="font-headline font-black text-xl text-[#DB3C2A] leading-tight mb-2">Democracy Dies<br/>in Darkness.</div>
+                <div class="font-mono text-[10px] text-zinc-600 uppercase tracking-widest">THE WASHINGTON POST</div>
+              </div>
+            </div>
+            <div>
+              <div class="font-headline font-extrabold text-2xl text-white/50 leading-tight mb-1">Context Changes Everything.</div>
+              <div class="font-mono text-[10px] text-zinc-700">BLOOMBERG</div>
+            </div>
+            <div class="flex justify-between items-end">
+              <div>
+                <div class="font-headline font-black text-xl text-white/40 leading-tight mb-1">Hope is Power.</div>
+                <div class="font-mono text-[10px] text-zinc-700">THE GUARDIAN</div>
+              </div>
+              <div class="text-right">
+                <div class="font-headline font-extrabold text-lg text-white/30 leading-tight mb-1">Advancing the<br/>power of facts.</div>
+                <div class="font-mono text-[10px] text-zinc-700">ASSOCIATED PRESS</div>
+              </div>
+            </div>
+            <div class="font-mono text-[10px] text-zinc-700 mt-4">
+              "Too dark for certainty." (The Economist) // "For The Why." (FT) // "Intelligent. Transparent. Global." (Semafor) // "Trust Your Decisions." (WSJ)
+            </div>
+            <div class="absolute top-10 right-10 p-4 border border-primary/20 bg-black/60 backdrop-blur-md hidden md:block">
+              <span class="material-symbols-outlined text-primary">crisis_alert</span>
+              <div class="font-mono text-[10px] mt-2 text-zinc-500">TRUST_COLLAPSING</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 03: FROM MISSION TO CONVERSION -->
+      <div class="group relative bg-[#0e0e0e] border-b-8 border-black overflow-hidden reveal">
+        <div class="hazard-tape h-4 w-full"></div>
+        <div class="flex flex-col lg:flex-row h-full min-h-[600px]">
+          <div class="lg:w-1/3 p-8 md:p-12 flex flex-col justify-between z-10 bg-[#0e0e0e]">
+            <div>
+              <span class="font-mono text-xs text-primary px-2 py-1 bg-surface-container-high">ERA_03 // SUBSCRIPTION</span>
+              <h2 class="font-headline font-extrabold text-4xl mt-6 uppercase tracking-tighter">FROM MISSION<br/>TO CONVERSION</h2>
+            </div>
+            <div class="mt-8">
+              <div class="p-6 bg-surface-container-low border-l-4 border-[#DB3C2A]">
+                <p class="font-mono text-[10px] mb-2 text-zinc-400">EXHIBITION_THESIS</p>
+                <p class="font-mono text-xs italic">"Slogans are compressed statements of institutional identity. They show what journalism promises when it must persuade rather than presume authority."</p>
+              </div>
+              <p class="font-mono text-xs text-on-surface-variant mt-6 leading-relaxed">
+                As publishers shifted from advertising-based models to reader revenue, self-promotion became more direct. Facts, independence, courage, and depth were no longer just institutional ideals - they became reasons to subscribe.
+              </p>
+            </div>
+          </div>
+          <div class="lg:w-2/3 min-h-[500px] relative bg-[#050505] p-10 flex flex-col justify-between">
+            <div class="flex justify-between items-start">
+              <div>
+                <div class="font-headline font-black text-3xl md:text-4xl text-white leading-tight mb-2">Suscríbete<br/>a los hechos.</div>
+                <div class="font-mono text-[10px] text-zinc-600 uppercase tracking-widest">EL PAIS</div>
+              </div>
+              <div class="text-right hidden md:block">
+                <div class="font-headline font-black text-xl text-white/50 leading-tight mb-2">Pure News, Straight<br/>from the Source.</div>
+                <div class="font-mono text-[10px] text-zinc-700 uppercase tracking-widest">REUTERS</div>
+              </div>
+            </div>
+            <div>
+              <div class="font-headline font-extrabold text-2xl text-[#DB3C2A]/80 leading-tight mb-1">Question. Think. Act.</div>
+              <div class="font-mono text-[10px] text-zinc-700">eNCA</div>
+            </div>
+            <div class="flex justify-between items-end">
+              <div>
+                <div class="font-headline font-black text-xl text-white/40 leading-tight mb-1">Yours.</div>
+                <div class="font-mono text-[10px] text-zinc-700">ABC NEWS AUSTRALIA</div>
+              </div>
+              <div class="text-right">
+                <div class="font-headline font-extrabold text-lg text-white/30 leading-tight mb-1">The Opinion and<br/>the Other Opinion.</div>
+                <div class="font-mono text-[10px] text-zinc-700">AL JAZEERA ARABIC</div>
+              </div>
+            </div>
+            <div class="border-t border-surface-container-high pt-4 mt-4">
+              <div class="font-mono text-[10px] text-zinc-700">
+                THE PAYWALL PROMPT: "Register to keep reading." // "Create an account to access free articles." // "You've reached your limit." // "Enter email to continue reading."
+              </div>
+              <div class="font-mono text-[10px] text-zinc-600 mt-2">
+                At the point of conversion, many publishers begin to sound strikingly alike. Whatever the editorial identity at the top of the funnel, the language at the paywall often collapses into a shared script.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </div><!-- /page-archive -->
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       PAGE: CAMPAIGNS (EVIDENCE)
+       ══════════════════════════════════════════════════════════ -->
+  <div id="page-campaigns" class="page">
+
+    <header class="px-8 md:px-16 py-12 max-w-6xl">
+      <div class="font-mono text-primary text-xs tracking-[0.3em] mb-4">EVIDENCE // CAMPAIGN_CASE_STUDIES</div>
+      <h1 class="font-headline font-black text-6xl md:text-8xl uppercase leading-[0.85] tracking-tighter mb-8">
+        CAMPAIGN<br/>
+        <span class="text-white opacity-20">ARCHIVE</span>
+      </h1>
+      <p class="font-mono text-sm max-w-xl text-on-surface-variant leading-relaxed">
+        Across print, broadcast, cable, digital, and subscription-era campaigns, news organizations have used slogans, brand promises, and promotional language to define what journalism is supposed to do. These messages are not neutral.
+      </p>
+    </header>
+
+    <section class="px-8 md:px-16 pb-24">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-1">
+
+        <!-- Campaign: CNN - Facts First -->
+        <div class="campaign-card bg-[#0e0e0e] p-8 hover:bg-[#2a2a2a] cursor-crosshair reveal">
+          <div class="flex justify-between items-start mb-6">
+            <span class="font-mono text-xs text-primary bg-surface-container-high px-2 py-1">CNN // 2017</span>
+            <span class="font-mono text-[10px] text-zinc-500">COMMERCIAL</span>
+          </div>
+          <div class="campaign-slogan mb-0 overflow-hidden bg-[#050505] flex items-center justify-center">
+            <div class="text-center p-4">
+              <div class="font-headline font-black text-4xl text-white uppercase">This is an apple.</div>
+              <div class="font-mono text-[10px] text-zinc-600 mt-2">Some people might try to tell you that it's a banana.</div>
+            </div>
+          </div>
+          <h2 class="font-headline font-extrabold text-3xl uppercase tracking-tighter mb-3 mt-4">FACTS FIRST</h2>
+          <p class="font-mono text-xs text-on-surface-variant mb-6 leading-relaxed">CNN deployed one of its most brutally simple campaigns in response to an era defined by "alternative facts" and political polarization. A stark, static shot of an apple. A calm voiceover. The campaign stripped away the bravado of cable news to focus on the absolute baseline of journalistic integrity: objective reality.</p>
+          <div class="flex justify-between items-center border-t border-surface-container-high pt-4">
+            <span class="font-mono text-[10px] text-zinc-500">DIGITAL ERA // TRUST_DEFENSE</span>
+            <span class="font-mono text-[10px] text-primary">[ CNN ]</span>
+          </div>
+        </div>
+
+        <!-- Campaign: The Guardian - Three Little Pigs -->
+        <div class="campaign-card bg-[#131313] p-8 hover:bg-[#2a2a2a] cursor-crosshair md:mt-16 reveal">
+          <div class="flex justify-between items-start mb-6">
+            <span class="font-mono text-xs text-primary bg-surface-container-high px-2 py-1">THE GUARDIAN // 2012</span>
+            <span class="font-mono text-[10px] text-zinc-500 status-active">LANDMARK</span>
+          </div>
+          <div class="campaign-slogan mb-0 overflow-hidden bg-[#050505] flex items-center justify-center">
+            <div class="text-center p-4">
+              <div class="font-headline font-black text-2xl text-white uppercase leading-tight">Big Bad Wolf<br/>Boiled Alive</div>
+              <div class="font-mono text-[10px] text-zinc-600 mt-2">Open journalism. The whole picture.</div>
+            </div>
+          </div>
+          <h2 class="font-headline font-extrabold text-3xl uppercase tracking-tighter mb-3 mt-4">THREE LITTLE PIGS</h2>
+          <p class="font-mono text-xs text-on-surface-variant mb-6 leading-relaxed">The Guardian's Christmas campaign reimagined a beloved fairy tale as a breaking news event - a sprawling, multi-platform investigation into the "Big Bad Wolf's" demise. It demonstrated how digital audiences, social media, and investigative reporters collaborate to uncover the full truth. Designed to showcase the open journalism model and membership commitment.</p>
+          <div class="flex justify-between items-center border-t border-surface-container-high pt-4">
+            <span class="font-mono text-[10px] text-zinc-500">OPEN JOURNALISM // MEMBERSHIP</span>
+            <span class="font-mono text-[10px] text-primary">[ THE GUARDIAN ]</span>
+          </div>
+        </div>
+
+        <!-- Campaign: Helsingin Sanomat - Counterstrike -->
+        <div class="campaign-card bg-[#0e0e0e] p-8 hover:bg-[#2a2a2a] cursor-crosshair reveal">
+          <div class="flex justify-between items-start mb-6">
+            <span class="font-mono text-xs text-primary bg-surface-container-high px-2 py-1">HELSINGIN SANOMAT // 2024</span>
+            <span class="font-mono text-[10px] text-[#DB3C2A] status-active">INMA BEST IN SHOW 2024</span>
+          </div>
+          <div class="campaign-slogan mb-0 overflow-hidden bg-[#050505] flex items-center justify-center">
+            <div class="text-center p-4">
+              <div class="font-headline font-black text-xl text-white uppercase leading-tight">COUNTERSTRIKE<br/>OF THE FREE PRESS</div>
+              <div class="font-mono text-[10px] text-zinc-600 mt-2">~4 BILLION PR IMPRESSIONS</div>
+            </div>
+          </div>
+          <h2 class="font-headline font-extrabold text-3xl uppercase tracking-tighter mb-3 mt-4">COUNTERSTRIKE OF THE FREE PRESS</h2>
+          <p class="font-mono text-xs text-on-surface-variant mb-6 leading-relaxed">Finland's Helsingin Sanomat bypassed Russian state censorship using a highly unconventional medium: the video game Counter-Strike. The newspaper created a custom map within the globally popular game, secretly embedding independent, factual reporting about the war in Ukraine in a virtual environment. The campaign generated nearly 4 billion PR impressions and successfully delivered critical, uncensored news to young men - a demographic notoriously difficult to reach through traditional journalistic channels.</p>
+          <div class="flex justify-between items-center border-t border-surface-container-high pt-4">
+            <span class="font-mono text-[10px] text-zinc-500">PRESS FREEDOM // CENSORSHIP_BYPASS</span>
+            <span class="font-mono text-[10px] text-primary">[ HELSINGIN SANOMAT ]</span>
+          </div>
+        </div>
+
+        <!-- Campaign: Philadelphia Inquirer - Unsubscribe -->
+        <div class="campaign-card bg-[#131313] p-8 hover:bg-[#2a2a2a] cursor-crosshair md:mt-16 reveal">
+          <div class="flex justify-between items-start mb-6">
+            <span class="font-mono text-xs text-primary bg-surface-container-high px-2 py-1">PHILADELPHIA INQUIRER // 2024</span>
+            <span class="font-mono text-[10px] text-[#DB3C2A] status-active">INMA GOLD 2024</span>
+          </div>
+          <div class="campaign-slogan mb-0 overflow-hidden bg-[#050505] flex items-center justify-center">
+            <div class="text-center p-4">
+              <div class="font-headline font-black text-2xl text-white uppercase leading-tight">Unsubscribe from<br/>"No one likes us."</div>
+              <div class="font-mono text-[10px] text-zinc-600 mt-2">Subscribe to "We don't care."</div>
+            </div>
+          </div>
+          <h2 class="font-headline font-extrabold text-3xl uppercase tracking-tighter mb-3 mt-4">UNSUBSCRIBE</h2>
+          <p class="font-mono text-xs text-on-surface-variant mb-6 leading-relaxed">In a brilliant subversion of the standard marketing pitch, The Philadelphia Inquirer challenged readers to "Unsubscribe from stereotypes" and "Unsubscribe from corruption" - and instead, "Subscribe to The Inquirer." This provocative initiative flipped the narrative of civic fatigue. By leveraging profound local patriotism and inherent "Philly bias," the campaign redefined purchasing a regional subscription as a definitive act of civic duty and community engagement.</p>
+          <div class="flex justify-between items-center border-t border-surface-container-high pt-4">
+            <span class="font-mono text-[10px] text-zinc-500">LOCAL PATRIOTISM // CIVIC_DUTY</span>
+            <span class="font-mono text-[10px] text-primary">[ PHILADELPHIA INQUIRER ]</span>
+          </div>
+        </div>
+
+        <!-- Campaign: The Economist - White out of Red -->
+        <div class="campaign-card bg-[#0e0e0e] p-8 hover:bg-[#2a2a2a] cursor-crosshair reveal">
+          <div class="flex justify-between items-start mb-6">
+            <span class="font-mono text-xs text-primary bg-surface-container-high px-2 py-1">THE ECONOMIST // 1988-ONGOING</span>
+            <span class="font-mono text-[10px] text-zinc-500">CLASSIC</span>
+          </div>
+          <div class="campaign-slogan mb-0 overflow-hidden bg-[#cc0000] flex items-center justify-center">
+            <div class="text-center p-4">
+              <div class="font-headline font-black text-xl text-white italic leading-tight">"I never read<br/>The Economist."</div>
+              <div class="font-mono text-[10px] text-white/60 mt-2">Management trainee. Aged 42.</div>
+            </div>
+          </div>
+          <h2 class="font-headline font-extrabold text-3xl uppercase tracking-tighter mb-3 mt-4">WHITE OUT OF RED</h2>
+          <p class="font-mono text-xs text-on-surface-variant mb-6 leading-relaxed">The Economist mastered the art of marketing intellectual exclusivity. Sharp wit and minimalist design implicitly flattered the intelligence of prospective readers. By framing the publication as an elite club for successful business leaders, the campaign justified its premium subscription cost - operating on the psychological premise of career ambition. "Great minds like a think." "Is your indecision final?" "Space is a dangerous place. Especially if it's between your ears."</p>
+          <div class="flex justify-between items-center border-t border-surface-container-high pt-4">
+            <span class="font-mono text-[10px] text-zinc-500">INTELLECTUAL EXCLUSIVITY // ELITIST</span>
+            <span class="font-mono text-[10px] text-primary">[ THE ECONOMIST ]</span>
+          </div>
+        </div>
+
+        <!-- Campaign: Reuters - Pure News -->
+        <div class="campaign-card bg-[#131313] p-8 hover:bg-[#2a2a2a] cursor-crosshair md:mt-16 reveal">
+          <div class="flex justify-between items-start mb-6">
+            <span class="font-mono text-xs text-primary bg-surface-container-high px-2 py-1">REUTERS // 2024</span>
+            <span class="font-mono text-[10px] text-zinc-500 status-active">AI ERA</span>
+          </div>
+          <div class="campaign-slogan mb-0 overflow-hidden bg-[#050505] flex items-center justify-center">
+            <div class="text-center p-4">
+              <div class="font-headline font-black text-2xl text-white uppercase leading-tight">Pure News,<br/>Straight from<br/>the Source.</div>
+              <div class="font-mono text-[10px] text-zinc-600 mt-2">REUTERS - THE SOURCE</div>
+            </div>
+          </div>
+          <h2 class="font-headline font-extrabold text-3xl uppercase tracking-tighter mb-3 mt-4">PURE NEWS</h2>
+          <p class="font-mono text-xs text-on-surface-variant mb-6 leading-relaxed">As Generative AI began to flood the internet with frictionless, synthetic text and hyper-realistic fake imagery, Reuters pivoted its marketing strategy to focus entirely on human verification. The campaign dramatically visualized the threat of misinformation, using imagery of water turning murky to represent the pollution of digital truth. This marks a critical evolution in media self-promotion: the absence of AI intervention and human editorial oversight has become a premium commodity.</p>
+          <div class="flex justify-between items-center border-t border-surface-container-high pt-4">
+            <span class="font-mono text-[10px] text-zinc-500">AI ERA // HUMAN_VERIFICATION</span>
+            <span class="font-mono text-[10px] text-primary">[ REUTERS ]</span>
+          </div>
+        </div>
+
+        <!-- Campaign: The Guardian - Points of View (1986) -->
+        <div class="campaign-card bg-[#0e0e0e] p-8 hover:bg-[#2a2a2a] cursor-crosshair reveal">
+          <div class="flex justify-between items-start mb-6">
+            <span class="font-mono text-xs text-primary bg-surface-container-high px-2 py-1">THE GUARDIAN // 1986</span>
+            <span class="font-mono text-[10px] text-zinc-500">ENDURING BENCHMARK</span>
+          </div>
+          <div class="campaign-slogan mb-0 overflow-hidden bg-[#050505] flex items-center justify-center">
+            <div class="text-center p-4">
+              <div class="font-headline font-black text-2xl text-white uppercase leading-tight">Three camera angles.<br/>One truth.</div>
+              <div class="font-mono text-[10px] text-zinc-600 mt-2">Facts without context can lie.</div>
+            </div>
+          </div>
+          <h2 class="font-headline font-extrabold text-3xl uppercase tracking-tighter mb-3 mt-4">POINTS OF VIEW</h2>
+          <p class="font-mono text-xs text-on-surface-variant mb-6 leading-relaxed">Considered an absolute classic and enduring benchmark for media advertising. The Guardian's 1986 campaign brilliantly illustrated the necessity of full journalistic context. The iconic television spot depicted a dramatic street scene from three distinct camera angles: one suggesting a skinhead was attacking a businessman, another showing him fleeing the police, and finally, the "whole picture" revealing he was actually saving the man from falling bricks. Facts without context can lie.</p>
+          <div class="flex justify-between items-center border-t border-surface-container-high pt-4">
+            <span class="font-mono text-[10px] text-zinc-500">CONTEXT // OPEN_JOURNALISM</span>
+            <span class="font-mono text-[10px] text-primary">[ THE GUARDIAN ]</span>
+          </div>
+        </div>
+
+        <!-- Campaign: The Atlantic - Question Everything -->
+        <div class="campaign-card bg-[#131313] p-8 hover:bg-[#2a2a2a] cursor-crosshair md:mt-16 reveal">
+          <div class="flex justify-between items-start mb-6">
+            <span class="font-mono text-xs text-primary bg-surface-container-high px-2 py-1">THE ATLANTIC // 2015</span>
+            <span class="font-mono text-[10px] text-zinc-500">COMMERCIAL</span>
+          </div>
+          <div class="campaign-slogan mb-0 overflow-hidden bg-[#050505] flex items-center justify-center">
+            <div class="text-center p-4">
+              <div class="font-headline font-black text-4xl text-white uppercase leading-tight">Question<br/>Everything</div>
+              <div class="font-mono text-[10px] text-zinc-600 mt-2">Questioning one's own answers.</div>
+            </div>
+          </div>
+          <h2 class="font-headline font-extrabold text-3xl uppercase tracking-tighter mb-3 mt-4">QUESTION EVERYTHING</h2>
+          <p class="font-mono text-xs text-on-surface-variant mb-6 leading-relaxed">To resonate with America's "creative class," The Atlantic launched a brand campaign centered on the imperative to "Question Everything" - conceptually linked to questioning one's own answers. Featuring prominent cultural figures, the campaign positioned the historic magazine as an intellectually provocative force. It actively challenged established cultural and political stereotypes, successfully differentiating itself from the repetitive "Sea of Sameness" characterizing much of legacy media.</p>
+          <div class="flex justify-between items-center border-t border-surface-container-high pt-4">
+            <span class="font-mono text-[10px] text-zinc-500">INTELLECTUAL DIFFERENTIATION</span>
+            <span class="font-mono text-[10px] text-primary">[ THE ATLANTIC ]</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Supporting Campaigns -->
+      <div class="mt-1">
+        <div class="px-0 py-8 border-t border-surface-container-high">
+          <div class="font-mono text-xs text-primary tracking-[0.3em] mb-6">ADDITIONAL_CASES // SUPPORTING_CAMPAIGNS</div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-1">
+
+            <div class="bg-[#0e0e0e] p-6 hover:bg-[#2a2a2a] cursor-crosshair reveal">
+              <div class="font-mono text-[10px] text-primary mb-3">HELSINGIN SANOMAT // 2019</div>
+              <h3 class="font-headline font-black text-xl uppercase tracking-tighter mb-3">THE CLIMATE FONT</h3>
+              <p class="font-mono text-xs text-on-surface-variant leading-relaxed">A free typeface dynamically designed to "melt" and lose its weight over a simulated timeline, visually representing the devastating impact of rising global temperatures. Environmental data turned into a tangible, usable design asset. The font weights represent years from 1979 to 2050. Typography turned into activism.</p>
+              <div class="mt-4 font-mono text-[10px] text-zinc-600">CLIMATE // DESIGN_AS_JOURNALISM</div>
+            </div>
+
+            <div class="bg-[#131313] p-6 hover:bg-[#2a2a2a] cursor-crosshair reveal">
+              <div class="font-mono text-[10px] text-primary mb-3">TIMES OF INDIA // 2019</div>
+              <h3 class="font-headline font-black text-xl uppercase tracking-tighter mb-3">UNPLASTIC INDIA</h3>
+              <p class="font-mono text-xs text-on-surface-variant leading-relaxed">A visually arresting campaign leveraging the physical medium of the newspaper itself. Detailed illustrations of marine animals choking on plastic waste, printed directly within the daily broadsheet. By using the tactile nature of print to force a visceral, emotional confrontation with reality, the newspaper shocked its readership into awareness. INMA Silver, Spikes Asia Silver.</p>
+              <div class="mt-4 font-mono text-[10px] text-zinc-600">ENVIRONMENTAL // PRINT_AS_ACTIVISM</div>
+            </div>
+
+            <div class="bg-[#0e0e0e] p-6 hover:bg-[#2a2a2a] cursor-crosshair reveal">
+              <div class="font-mono text-[10px] text-primary mb-3">eNCA // SOUTH AFRICA</div>
+              <h3 class="font-headline font-black text-xl uppercase tracking-tighter mb-3">QUESTION. THINK. ACT.</h3>
+              <p class="font-mono text-xs text-on-surface-variant leading-relaxed">A concise command rather than a comforting slogan, eNCA's campaign presents journalism as civic activation rather than passive consumption. Launched during a period of intense political and social tension in South Africa, it positioned the news channel as a catalyst for engaged citizenship. News becomes a starting point for participation, not an endpoint for information.</p>
+              <div class="mt-4 font-mono text-[10px] text-zinc-600">CIVIC_ACTIVATION // PUBLIC_SERVICE</div>
+            </div>
+
+            <div class="bg-[#131313] p-6 hover:bg-[#2a2a2a] cursor-crosshair reveal">
+              <div class="font-mono text-[10px] text-primary mb-3">ABC NEWS AUSTRALIA // 2019</div>
+              <h3 class="font-headline font-black text-xl uppercase tracking-tighter mb-3">YOURS</h3>
+              <p class="font-mono text-xs text-on-surface-variant leading-relaxed">ABC's "Yours" compresses the entire public-service broadcasting ethos into a single possessive word. Instead of stressing competitive superiority or technical reach, it suggests belonging, shared ownership, and institutional accountability. "Yours" asserts that ABC News Australia is answerable to its audience in a fundamental, structural way. Public-service journalism belongs to everyone.</p>
+              <div class="mt-4 font-mono text-[10px] text-zinc-600">PUBLIC_SERVICE // BELONGING</div>
+            </div>
+
+            <div class="bg-[#0e0e0e] p-6 hover:bg-[#2a2a2a] cursor-crosshair reveal">
+              <div class="font-mono text-[10px] text-primary mb-3">SCOTLAND ON SUNDAY // PRINT ERA</div>
+              <h3 class="font-headline font-black text-xl uppercase tracking-tighter mb-3">CREATING HABIT</h3>
+              <p class="font-mono text-xs text-on-surface-variant leading-relaxed">In the print era, media marketing relied heavily on geographical embeddedness and routine. Scotland on Sunday's campaigns foregrounded locality, national pride, and the habit of daily reading. "Every Sunday." "It's altogether Scottish." "Revolutionise your Sunday." "You'll be lost without it." The authority of the printed word was assumed; marketing efforts reflected a quiet confidence in the medium's central role in civic life.</p>
+              <div class="mt-4 font-mono text-[10px] text-zinc-600">HABIT // LOCAL_IDENTITY</div>
+            </div>
+
+            <div class="bg-[#131313] p-6 hover:bg-[#2a2a2a] cursor-crosshair reveal">
+              <div class="font-mono text-[10px] text-primary mb-3">MTV // 1981-1990s</div>
+              <h3 class="font-headline font-black text-xl uppercase tracking-tighter mb-3">I WANT MY MTV</h3>
+              <p class="font-mono text-xs text-on-surface-variant leading-relaxed">MTV revolutionized media branding by selling an attitude, an aesthetic, and a lifestyle. The broadcast boom introduced entirely new methodologies for claiming authority. "I Want My MTV!" used celebrities to pressure cable operators to carry the channel, turning brand promotion into a public mobilization campaign. MTV pioneered techniques journalism would later adopt: selling identity, attitude, and cultural allegiance rather than simply content.</p>
+              <div class="mt-4 font-mono text-[10px] text-zinc-600">BROADCAST // IDENTITY_SELLING</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </div><!-- /page-campaigns -->
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       PAGE: THEORY (MAP)
+       ══════════════════════════════════════════════════════════ -->
+  <div id="page-theory" class="page">
+
+    <header class="px-8 md:px-16 py-12 max-w-6xl">
+      <div class="font-mono text-primary text-xs tracking-[0.3em] mb-4">MAP // THEORETICAL_FRAMEWORK</div>
+      <h1 class="font-headline font-black text-6xl md:text-8xl uppercase leading-[0.85] tracking-tighter mb-8">
+        THEORY<br/>
+        <span class="text-white opacity-20">ARCHIVE</span>
+      </h1>
+      <p class="font-mono text-sm max-w-xl text-on-surface-variant leading-relaxed">
+        Seen together across decades and markets, slogans map a profession continually redefining its value proposition in response to crisis. These essays form the theoretical backbone of the exhibition.
+      </p>
+    </header>
+
+    <section class="px-8 md:px-16 pb-24 max-w-5xl">
+
+      <article class="theory-entry group border-b border-surface-container-high py-10 hover:bg-[#0e0e0e] -mx-8 md:-mx-16 px-8 md:px-16 cursor-crosshair reveal">
+        <div class="flex flex-col md:flex-row md:items-start gap-6">
+          <div class="entry-num font-headline font-black text-5xl text-primary/25 w-16 shrink-0 group-hover:text-primary/60">01</div>
+          <div class="flex-grow">
+            <div class="flex flex-wrap gap-3 mb-3">
+              <span class="font-mono text-[10px] bg-surface-container-high px-2 py-0.5">ESSAY</span>
+              <span class="font-mono text-[10px] text-zinc-500">HISTORICAL OVERVIEW</span>
+            </div>
+            <h2 class="font-headline font-extrabold text-2xl uppercase tracking-tighter mb-3 group-hover:text-primary">How Journalism Learned to Advertise Itself</h2>
+            <p class="font-mono text-xs text-on-surface-variant leading-relaxed max-w-2xl">
+              News organizations have always sold more than news. In the print era, trust was often implied rather than argued. Newspapers leaned on locality, routine, and civic belonging: your city, your street, your nation, your daily habit. Broadcast changed the tone. Radio and television introduced voices, faces, live transmission, and the performance of institutional authority. The cable era intensified competition - slogans such as "Fair and Balanced" and "We Report. You Decide." turned objectivity itself into a promotional weapon. In the digital era, campaigns like "The Truth Is Hard" and "Democracy Dies in Darkness" reframed journalism as a difficult, embattled, and socially necessary practice. Journalism no longer just claimed credibility; it fought for it in a crowded and partisan market.
+            </p>
+            <div class="mt-5">
+              <div class="font-mono text-[10px] text-zinc-700 italic">"ALL THE NEWS THAT'S FIT TO PRINT," "FAIR AND BALANCED," "THE TRUTH IS HARD," "SUSCRIBETE A LOS HECHOS"</div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="theory-entry group border-b border-surface-container-high py-10 hover:bg-[#0e0e0e] -mx-8 md:-mx-16 px-8 md:px-16 cursor-crosshair reveal">
+        <div class="flex flex-col md:flex-row md:items-start gap-6">
+          <div class="entry-num font-headline font-black text-5xl text-primary/25 w-16 shrink-0 group-hover:text-primary/60">02</div>
+          <div class="flex-grow">
+            <div class="flex flex-wrap gap-3 mb-3">
+              <span class="font-mono text-[10px] bg-surface-container-high px-2 py-0.5">ESSAY</span>
+              <span class="font-mono text-[10px] text-zinc-500">INSTITUTIONAL ANALYSIS</span>
+            </div>
+            <h2 class="font-headline font-extrabold text-2xl uppercase tracking-tighter mb-3 group-hover:text-primary">Public Service vs Commercial Rhetoric</h2>
+            <p class="font-mono text-xs text-on-surface-variant leading-relaxed max-w-2xl">
+              Not all journalism speaks about itself in the same way. Public-service media and commercial media often use similar values - trust, accuracy, relevance, independence - but they frame those values differently because they answer to different institutional logics. Public-service rhetoric usually emphasizes mandate. It speaks in the language of service, universality, belonging, and public obligation. ABC News Australia's "Yours" is a good example: a very small word that implies ownership by the public, not by the market. Commercial rhetoric more often emphasizes differentiation. It needs to persuade audiences to choose, subscribe, return, and pay. The tension matters because it shapes how journalism justifies itself. One stresses duty, the other persuasion. Both seek trust, but they speak to the public in different accents.
+            </p>
+            <div class="mt-5">
+              <div class="font-mono text-[10px] text-zinc-700 italic">"YOURS," "TRUST IS EARNED," "THE TRUTH IS WORTH IT," "MOST WATCHED. MOST TRUSTED."</div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="theory-entry group border-b border-surface-container-high py-10 hover:bg-[#0e0e0e] -mx-8 md:-mx-16 px-8 md:px-16 cursor-crosshair reveal">
+        <div class="flex flex-col md:flex-row md:items-start gap-6">
+          <div class="entry-num font-headline font-black text-5xl text-primary/25 w-16 shrink-0 group-hover:text-primary/60">03</div>
+          <div class="flex-grow">
+            <div class="flex flex-wrap gap-3 mb-3">
+              <span class="font-mono text-[10px] bg-surface-container-high px-2 py-0.5">ESSAY</span>
+              <span class="font-mono text-[10px] text-zinc-500">GEOGRAPHY OF MEDIA</span>
+            </div>
+            <h2 class="font-headline font-extrabold text-2xl uppercase tracking-tighter mb-3 group-hover:text-primary">Local, National, Global</h2>
+            <p class="font-mono text-xs text-on-surface-variant leading-relaxed max-w-2xl">
+              Journalism does not only tell people what happened. It also tells them where they belong. Across decades of self-promotion, media organizations have repeatedly defined themselves through scale: local, national, or global. Local rhetoric is intimate. It promises proximity, familiarity, and shared daily life. "It's where you live." "Your Region. Your Paper." National rhetoric is broader and often more political - it links journalism to citizenship, nation-building, or democratic renewal. "Building the Nation." "Your right to know. A new voice for a new Pakistan." Global rhetoric promises reach, perspective, and connection across borders. Al Jazeera and Deutsche Welle have branded themselves through humanity, intellect, and worldliness. Placed side by side, these slogans reveal that journalism is always selling geography as well as information. Is this your paper, your country, or your world?
+            </p>
+            <div class="mt-5">
+              <div class="font-mono text-[10px] text-zinc-700 italic">"IT'S WHERE YOU LIVE," "BUILDING THE NATION," "HEAR THE HUMAN STORY"</div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="theory-entry group border-b border-surface-container-high py-10 hover:bg-[#0e0e0e] -mx-8 md:-mx-16 px-8 md:px-16 cursor-crosshair reveal">
+        <div class="flex flex-col md:flex-row md:items-start gap-6">
+          <div class="entry-num font-headline font-black text-5xl text-primary/25 w-16 shrink-0 group-hover:text-primary/60">04</div>
+          <div class="flex-grow">
+            <div class="flex flex-wrap gap-3 mb-3">
+              <span class="font-mono text-[10px] bg-surface-container-high px-2 py-0.5">ESSAY</span>
+              <span class="font-mono text-[10px] text-zinc-500">AI ERA</span>
+            </div>
+            <h2 class="font-headline font-extrabold text-2xl uppercase tracking-tighter mb-3 group-hover:text-primary">Trust Labels</h2>
+            <p class="font-mono text-xs text-on-surface-variant leading-relaxed max-w-2xl">
+              For much of modern media history, trust was presumed. Today it is increasingly labeled, audited, and displayed. In polluted digital environments, journalism has begun to market not only content, but visible signs of credibility. This shift reflects a deeper change. When authority is unstable, institutions must show their workings. Editorial guidelines, verification practices, transparency statements, and third-party trust initiatives all turn internal process into public-facing evidence. The claim is no longer simply "believe us," but "see how this was made." Industry-wide trust campaigns make this especially clear. The Pennsylvania NewsMedia Association's "Trust in Newspapers" campaign treats trust as a collective asset that can be measured, packaged, and promoted. Trust labels and certification schemes function like seals of quality in a marketplace crowded with misinformation, synthetic media, and blurred boundaries between editorial, sponsored, and manipulated content. Credibility becomes graphic: a badge, a label, a standard, a mark.
+            </p>
+            <div class="mt-5">
+              <div class="font-mono text-[10px] text-zinc-700 italic">"FACTS FIRST," "TRUST IN NEWSPAPERS," "PURE NEWS, STRAIGHT FROM THE SOURCE"</div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="theory-entry group py-10 hover:bg-[#0e0e0e] -mx-8 md:-mx-16 px-8 md:px-16 cursor-crosshair reveal">
+        <div class="flex flex-col md:flex-row md:items-start gap-6">
+          <div class="entry-num font-headline font-black text-5xl text-primary/25 w-16 shrink-0 group-hover:text-primary/60">05</div>
+          <div class="flex-grow">
+            <div class="flex flex-wrap gap-3 mb-3">
+              <span class="font-mono text-[10px] bg-surface-container-high px-2 py-0.5">ESSAY</span>
+              <span class="font-mono text-[10px] text-primary status-active">OPEN QUESTION</span>
+            </div>
+            <h2 class="font-headline font-extrabold text-2xl uppercase tracking-tighter mb-3 group-hover:text-primary">What Will Journalism Promise Next?</h2>
+            <p class="font-mono text-xs text-on-surface-variant leading-relaxed max-w-2xl">
+              Every era produces its own journalistic promise. In one period the promise was completeness; in another, neutrality; in another, speed. More recently, journalism has promised courage, democracy, context, community, and independence from platform power or owner influence. These promises are never neutral. They appear most forcefully when journalism feels threatened - by war, polarization, distrust, collapsing business models, or technological upheaval. A slogan is never just a slogan; it is a compressed response to crisis. In an environment saturated with AI-generated text, synthetic imagery, and platform-mediated attention, news organizations may need to promise provenance, transparency, traceability, and human editorial accountability with a new intensity. So what will journalism promise next? Better facts, clearer methods, human verification, public usefulness, civic courage - or simply a reason to keep believing that shared reality can still be built in public.
+            </p>
+            <div class="mt-5">
+              <div class="p-4 bg-surface-container-high border-l-4 border-primary">
+                <p class="font-mono text-xs text-on-surface-variant italic">"That is why the future question is not simply what journalism will do, but how it will explain itself."</p>
+                <p class="font-mono text-[10px] text-zinc-500 mt-2">- VIEW FROM SOMEWHERE</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </section>
+  </div><!-- /page-theory -->
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       PAGE: DOSSIER (ABOUT)
+       ══════════════════════════════════════════════════════════ -->
+  <div id="page-dossier" class="page">
+
+    <header class="px-8 md:px-16 py-12 max-w-6xl">
+      <div class="font-mono text-primary text-xs tracking-[0.3em] mb-4">ABOUT // JAKUB GÓRNICKI</div>
+      <h1 class="font-headline font-black text-6xl md:text-8xl uppercase leading-[0.85] tracking-tighter mb-8">
+        ABOUT<br/>
+        <span class="text-white opacity-20">THE AUTHOR</span>
+      </h1>
+    </header>
+
+    <section class="px-8 md:px-16 pb-24 max-w-6xl">
+
+      <!-- Profile block -->
+      <div class="flex flex-col lg:flex-row gap-1 mb-1">
+
+        <!-- Bio -->
+        <div class="lg:w-2/3 bg-[#0e0e0e] p-8 md:p-12 flex flex-col justify-between reveal">
+          <div>
+            <div class="hazard-tape h-2 w-20 mb-8"></div>
+            <div class="font-headline font-black text-3xl uppercase leading-none mb-2">Jakub Górnicki</div>
+            <div class="font-mono text-xs text-primary mb-8 uppercase tracking-widest">Journalist // Exhibition Designer // Warsaw</div>
+            <p class="font-mono text-sm text-on-surface-variant leading-relaxed mb-6">
+              Jakub Górnicki operates at the intersection of reality and art. As a journalist, exhibition designer, and creator of Outriders and Reakcja, he pioneers "Artistic Journalism" - a movement built as a visceral antidote to digital fatigue. His pioneering approach to immersive storytelling has been recognized with prestigious accolades, including the European Press Prize and INMA awards.
+            </p>
+            <p class="font-mono text-sm text-on-surface-variant leading-relaxed mb-6">
+              His work transforms rigorous reportage into physical, live experiences, stripping away traditional media norms to push audiences into questioning what they know and what they believe. Blending curatorial rigor with journalistic practice, the exhibition does not celebrate advertising creativity. Instead, it critically dissects how news organizations attempt to justify their value when their authority can no longer be blindly assumed.
+            </p>
+            <p class="font-mono text-sm text-on-surface-variant leading-relaxed">
+              Based in Poland and working internationally, Górnicki has presented his projects across Europe and North America, consistently creating spaces that make editorial thinking not just visible, but deeply experiential.
+            </p>
+          </div>
+          <div class="mt-10 grid grid-cols-3 gap-1">
+            <div class="bg-surface-container-high p-4">
+              <div class="font-headline font-black text-3xl text-primary">2025</div>
+              <div class="font-mono text-[10px] text-zinc-500 mt-1 uppercase">Exhibition Year</div>
+            </div>
+            <div class="bg-surface-container-high p-4">
+              <div class="font-headline font-black text-3xl text-primary">15+</div>
+              <div class="font-mono text-[10px] text-zinc-500 mt-1 uppercase">Campaigns Analyzed</div>
+            </div>
+            <div class="bg-surface-container-high p-4">
+              <div class="font-headline font-black text-3xl text-primary">100+</div>
+              <div class="font-mono text-[10px] text-zinc-500 mt-1 uppercase">Years of Slogans</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Exhibition Info -->
+        <div class="lg:w-1/3 flex flex-col gap-1">
+          <div class="bg-[#0e0e0e] p-8 reveal flex-grow">
+            <div class="font-mono text-xs text-primary mb-4">EXHIBITION_INFO</div>
+            <h3 class="font-headline font-black text-xl uppercase mb-5">VIEW FROM SOMEWHERE</h3>
+            <div class="space-y-4">
+              <div>
+                <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest mb-1">FOCUS</p>
+                <p class="font-mono text-xs text-on-surface-variant">How journalism organizations market themselves under shifting economic and technological conditions</p>
+              </div>
+              <div>
+                <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest mb-1">METHOD</p>
+                <p class="font-mono text-xs text-on-surface-variant">Self-promotional campaigns treated as primary source material</p>
+              </div>
+              <div>
+                <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest mb-1">SCOPE</p>
+                <p class="font-mono text-xs text-on-surface-variant">Print, broadcast, cable, digital, and subscription era - from the late 19th century to the AI age</p>
+              </div>
+              <div>
+                <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest mb-1">AWARDS</p>
+                <p class="font-mono text-xs text-on-surface-variant">European Press Prize // INMA Awards</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-[#0e0e0e] p-8 reveal">
+            <div class="font-mono text-xs text-primary mb-4">PROJECTS // ALSO BY</div>
+            <div class="space-y-3">
+              <div class="border-b border-surface-container-high pb-3">
+                <div class="font-headline font-bold text-sm uppercase">Outriders</div>
+                <div class="font-mono text-[10px] text-zinc-500">Journalism collective // 2017-present</div>
+              </div>
+              <div class="border-b border-surface-container-high pb-3">
+                <div class="font-headline font-bold text-sm uppercase">Reakcja</div>
+                <div class="font-mono text-[10px] text-zinc-500">Immersive journalism project</div>
+              </div>
+              <div>
+                <div class="font-headline font-bold text-sm uppercase">Artistic Journalism</div>
+                <div class="font-mono text-[10px] text-zinc-500">Antidote to digital fatigue</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact -->
+      <div class="bg-[#0e0e0e] p-8 md:p-12 mt-1 reveal">
+        <div class="font-mono text-xs text-primary mb-8">CONTACT // WWW.JAKUBGORNICKI.COM</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-10">
+          <div>
+            <div class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest mb-2">WEBSITE</div>
+            <a href="http://www.jakubgornicki.com" target="_blank" class="font-headline font-black text-2xl hover:text-primary" style="transition: color 0.1s steps(2)">www.jakubgornicki.com</a>
+          </div>
+          <div>
+            <div class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest mb-2">LOCATION</div>
+            <div class="font-headline font-black text-2xl">Warsaw, PL // GMT+1</div>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <a href="http://www.jakubgornicki.com" target="_blank" class="bg-primary-container text-white font-mono font-bold py-3 px-6 text-xs uppercase hover:bg-[#DB3C2A]" style="transition: background-color 0.1s steps(2)">
+            VISIT WEBSITE
+          </a>
+          <button onclick="navigateTo('campaigns')" class="border border-[#603e39] text-on-surface-variant font-mono font-bold py-3 px-6 text-xs uppercase hover:border-primary hover:text-white" style="transition: all 0.1s steps(2)">
+            VIEW CAMPAIGNS
+          </button>
+        </div>
+      </div>
+
+    </section>
+  </div><!-- /page-dossier -->
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="xl:ml-64 w-full py-12 px-8 flex flex-col md:flex-row justify-between items-end bg-[#0e0e0e]">
+  <div class="mb-8 md:mb-0">
+    <div class="text-white font-bold font-mono text-xs uppercase mb-3">VIEW FROM SOMEWHERE // JAKUB GÓRNICKI // 2025</div>
+    <div class="flex space-x-6">
+      <a class="font-mono text-[10px] tracking-widest uppercase text-zinc-600 hover:text-[#DB3C2A]" href="http://www.jakubgornicki.com" target="_blank">WWW.JAKUBGORNICKI.COM</a>
+      <a class="font-mono text-[10px] tracking-widest uppercase text-zinc-600 hover:text-[#DB3C2A]" onclick="navigateTo('theory')" href="#">THEORY</a>
+      <a class="font-mono text-[10px] tracking-widest uppercase text-zinc-600 hover:text-[#DB3C2A]" onclick="navigateTo('dossier')" href="#">ABOUT</a>
+    </div>
+  </div>
+  <div class="text-right">
+    <div class="font-headline font-black text-white text-2xl leading-none">VIEW FROM<br/>SOMEWHERE</div>
+    <div class="font-mono text-[10px] text-primary mt-1 uppercase">A SLOGAN IS NEVER JUST A SLOGAN</div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+// ── SPA: Navigate to page ──────────────────────────────────────
+const VALID_PAGES = ['archive', 'campaigns', 'theory', 'dossier'];
+
+function navigateTo(pageId) {
+  if (!VALID_PAGES.includes(pageId)) pageId = 'archive';
+
+  // Show/hide pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('page-' + pageId);
+  if (target) target.classList.add('active');
+
+  // Top nav active state
+  document.querySelectorAll('.nav-top-link').forEach(link => {
+    const active = link.dataset.page === pageId;
+    link.classList.toggle('active-top', active);
+    link.classList.toggle('text-white/60', !active);
+  });
+
+  // Side nav active state (desktop + mobile)
+  document.querySelectorAll('.nav-side-link').forEach(link => {
+    const active = link.dataset.page === pageId;
+    link.classList.toggle('active-side', active);
+    if (active) {
+      link.classList.remove('text-white/60');
+    } else {
+      link.classList.add('text-white/60');
+      link.classList.remove('active-side');
+    }
+  });
+
+  // Update URL hash (no scroll jump)
+  history.pushState(null, '', '#' + pageId);
+  window.scrollTo(0, 0);
+
+  // Trigger reveal on newly visible elements
+  setTimeout(initReveals, 60);
+
+  // Re-run typing on archive page each visit
+  if (pageId === 'archive') {
+    startTyping();
+  }
+}
+
+// ── Mobile menu ────────────────────────────────────────────────
+function toggleMobileMenu() {
+  const menu    = document.getElementById('mobile-menu');
+  const overlay = document.getElementById('mobile-overlay');
+  menu.classList.toggle('open');
+  overlay.classList.toggle('hidden');
+}
+
+// ── Typing animation ───────────────────────────────────────────
+function startTyping() {
+  const el   = document.getElementById('status-text');
+  const text = 'EXHIBITION // VIEW FROM SOMEWHERE // JAKUB GÓRNICKI';
+  if (!el) return;
+  el.textContent = '';
+  el.classList.add('typing');
+  let i = 0;
+  const timer = setInterval(() => {
+    el.textContent += text[i++];
+    if (i >= text.length) {
+      clearInterval(timer);
+      el.classList.remove('typing');
+    }
+  }, 45);
+}
+
+// ── Lightbox ───────────────────────────────────────────────────
+function openLightbox(src) {
+  const lb = document.getElementById('lightbox');
+  document.getElementById('lightbox-img').src = src;
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.getElementById('lightbox-img').src = '';
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeLightbox();
+});
+
+// ── Scroll reveal ──────────────────────────────────────────────
+function initReveals() {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.07 });
+
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el => io.observe(el));
+}
+
+// ── Lightbox triggers ──────────────────────────────────────────
+function initLightboxTriggers() {
+  document.querySelectorAll('.lightbox-trigger').forEach(img => {
+    img.addEventListener('click', () => openLightbox(img.src), { once: false });
+  });
+}
+
+// ── Browser back/forward ───────────────────────────────────────
+window.addEventListener('popstate', () => {
+  const hash = window.location.hash.slice(1);
+  const pageId = VALID_PAGES.includes(hash) ? hash : 'archive';
+  navigateTo(pageId);
+});
+
+// ── Init ───────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  const hash   = window.location.hash.slice(1);
+  const pageId = VALID_PAGES.includes(hash) ? hash : 'archive';
+  navigateTo(pageId);
+  startTyping();
+  initLightboxTriggers();
+  initReveals();
+});
+</script>
+
+</body>
+</html>
