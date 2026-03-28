@@ -1237,7 +1237,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const hash   = window.location.hash.slice(1);
   const pageId = VALID_PAGES.includes(hash) ? hash : 'archive';
   navigateTo(pageId);
-  startTyping();
   initLightboxTriggers();
   initReveals();
 });
